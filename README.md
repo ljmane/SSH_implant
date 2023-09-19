@@ -1,6 +1,6 @@
 # SSH_implant
 <h3>Purpose</h3>
-Access an internal device's ssh server
+Post Exploitation action after accessing an internal target in a network. Enables future access to an internal targets ssh server (Internal target must be able to access the internet)
 <h5>Step One</h5>
 Setup chroot and user on Opstation, use chroot_setup.sh
 <h5>Step Two</h5>
