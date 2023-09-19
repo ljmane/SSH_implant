@@ -8,4 +8,6 @@ CHK_PORT=<CHK_PORT> - This is the port that implant will checking if open, if op
 CB_IPs="<CB_IP(s)>" - This is the public IP address that the target will be calling back to. If multiple separate by a space.
 CB_PORT=<CB_PORT> - This is the port that the target will connect to. This port will need to be able to be opened on the $CB_IPs device
 KEY="<location_to_key>" - This is the location of the private key on the target.
-SLEEP=<time_in_seconds> - Operator will have this much time to connect and kill the script so they don't get disconnected.
+SLEEP=<time_in_seconds> - Operator will have this much time to connect and kill the script so they don\'t get disconnected.
+SLEEP1=<time_in_seconds_that_REMLIS_will_be_available> #Non-Persistent only
+SLEEP2=<time_in_seconds_between_checks> #Non-Persistent only
