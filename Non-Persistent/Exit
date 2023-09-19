@@ -1,0 +1,13 @@
+****Super Important****
+//Ensure socat listener on CHK_IP has been closed
+****Super Important****
+
+
+//Start the CB loop script again
+(<CB_LOOP.sh> &)&
+
+//Verfiy its disassociated with your ssh connection
+ps -efH
+
+//Kill ssh connection
+kill -9 <SSH_PID>
