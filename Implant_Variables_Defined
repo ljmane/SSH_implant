@@ -1,0 +1,11 @@
+#Implant script variables defined. Depending on persistence script may or may not have all the variables listed here
+REMLIS=<RHP> - This is the port that will be listening on your opstations, you will ssh to this port on localhost
+REMUSR=user - This the chroot user on your opstation
+TARUSR=<target_user> - This is the target user that has the ssh key
+TARSSH=<target_ssh_port> - This is the ssh port the target server is listening on
+CHK_IPs="<CHK_IPs>" - This is the public IP address(s) that the implant will be checking \for the $CHK_PORT
+CHK_PORT=<CHK_PORT> - This is the port that implant will checking if open, if open then ssh connection will be initiated.
+CB_IPs="<CB_IP(s)>" - This is the public IP address that the target will be calling back to. If multiple separate by a space.
+CB_PORT=<CB_PORT> - This is the port that the target will connect to. This port will need to be able to be opened on the $CB_IPs device
+KEY="<location_to_key>" - This is the location of the private key on the target.
+SLEEP=<time_in_seconds> - Operator will have this much time to connect and kill the script so they don't get disconnected.
