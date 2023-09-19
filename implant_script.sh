@@ -18,6 +18,7 @@ for LIVEHOST in $CHK_IPs;
 do
 	INFO=$(nc -nw1 $LIVEHOST $CHK_PORT)
 #	INFO=$(wget --timeout=1 --tries=1 -qO- -o /dev/null $LIVEHOST:$CHK_PORT)
+#	INFO=$(perl -MLWP::Simple -e "getprint('http://$LIVEHOST:$CHK_PORT')" #Needs testing to ensure it works
 	if [ $? -eq 0 ]; then
 		CB_PORT=$(get_value 1)
 		CB_IP=$(get_value 2)
