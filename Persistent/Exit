@@ -1,0 +1,9 @@
+//Must exit with the following
+rm -f <TRACK_FILE> && kill -9 <PID_OF_SSH_CONNECTION>
+
+#On Opstation
+sed -ie "s/PubkeyAuthentication yes #/PubkeyAuthentication no #/" /etc/ssh/sshd_config && rm /etc/ssh/sshd_confige
+systemctl restart ssh
+
+//Verify Remote tunnel is down
+netstat -tuanp
