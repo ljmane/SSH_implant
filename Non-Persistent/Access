@@ -21,6 +21,7 @@ ssh -S /tmp/<target> <user> -O [forward|cancel|exit} -[L|R] <tunnel_ip>:<tunnel_
 ps -efH
 //Pull script from memory, it should have been deleted. This will save the script on target to its original location. Ensure path exists. Need to do this so you can start the script again before exiting target.
 cat /proc/[PID_of_CB_LOOP]/fd/255 > "$(readlink /proc/[PID_of_CB_LOOP]/fb/255 | sed 's/ (deleted)$//')"
+//fd number may vary, have seen 255 and 10 so far
 kill -9 <PID_of_CB_LOOP> <PID_of_Sleep_Cmd>
 
 #On CHK_IP
