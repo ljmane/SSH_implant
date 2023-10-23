@@ -31,6 +31,7 @@ Match User user
   ChrootDirectory /home/chroot
   AuthorizedKeysFile /home/chroot/home/user/.ssh/authorized_keys
   PubkeyAuthentication no #
+  AuthenticationMethod publickey
 EOF
 
 systemctl restart ssh
