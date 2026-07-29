@@ -8,7 +8,7 @@ socat -d -d TCP-LISTEN:<CHK_PORT>,fork,reuseaddr system:/path/to/info.sh
 
 #On Opstation
 #When ready to have interactive shell
-sed -i -e "s/PubkeyAuthentication no #/PubkeyAuthentication yes #/" /etc/ssh/sshd_config && rm /etc/ssh/sshd_confige
+sed -i "s/PubkeyAuthentication no #/PubkeyAuthentication yes #/" /etc/ssh/sshd_config
 systemctl restart ssh
 
 //Initial Connection
