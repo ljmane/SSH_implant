@@ -26,10 +26,9 @@ for i in $(ldd /bin/sh | egrep -o "\/lib64\/.*\(" | cut -d " " -f 1); do cp -v $
 mkdir /home/chroot/etc 
 
 useradd user -s /bin/sh
-#Example with 'P@$$w0rd123!!!' in file.txt                                                                            
-#cat ~/file.txt | openssl passwd -1 -stdin                                                                            
-echo 'user:$1$2gX9q2iE$8VLLFzFc7MkSooH/aRz.9.' | chpasswd -e                                                          
-cp -vf /etc/{passwd,group} /home/chroot/etc/   
+#Password auth is unused; only AuthenticationMethods publickey is permitted below. Lock it instead of setting a static password.
+passwd -l user
+cp -vf /etc/{passwd,group} /home/chroot/etc/
 
 mkdir -p /home/chroot/home/user/.ssh                                                                                  
 ssh-keygen -t rsa -f /home/chroot/id_rsa -q -N ''                                                                     
