@@ -3,7 +3,7 @@ rm -f <TRACK_FILE> && kill -9 <PID_OF_SSH_CONNECTION>
 
 #On Attack Host
 sed -i "s/PubkeyAuthentication yes #/PubkeyAuthentication no #/" /etc/ssh/sshd_config
-systemctl restart ssh
+systemctl reload ssh 2>/dev/null || systemctl reload sshd 2>/dev/null || service ssh reload 2>/dev/null || service sshd reload 2>/dev/null || kill -HUP "$(pgrep -o -x sshd)"
 
 //Verify Remote tunnel is down
 netstat -tuanp

