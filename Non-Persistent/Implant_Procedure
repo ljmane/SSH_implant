@@ -18,3 +18,7 @@ ssh-keygen
 #Put ssh privkey on target, try to make location blend in
 	likely will use scp or ssh-cat to get it up to target. Depending on access method
 #Configure "Implant script" variables. See "Implant Variables Defined" section
+#Fill in the "encoded:" block at the bottom of the script: delete the placeholder
+	line, then in vim run :r !base64 /path/to/pub/key/on/attack_host (pointed at
+	the attack host's actual pubkey) to embed it in place. Skipping this leaves
+	a non-base64 placeholder that will silently corrupt the key on the target.

