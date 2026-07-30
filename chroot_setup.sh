@@ -21,6 +21,7 @@ mkdir /home/chroot/lib
 mkdir /home/chroot/lib64
 for i in $(ldd /bin/sh | egrep -o "\/lib\/.*\(" | cut -d " " -f 1); do cp -v $i /home/chroot/lib/; done
 for i in $(ldd /usr/bin/mkdir | egrep -o "\/lib\/.*\(" | cut -d " " -f 1); do cp -v $i /home/chroot/lib/; done
+for i in $(ldd /usr/bin/cat | egrep -o "\/lib\/.*\(" | cut -d " " -f 1); do cp -v $i /home/chroot/lib/; done
 for i in $(ldd /bin/sh | egrep -o "\/lib64\/.*\(" | cut -d " " -f 1); do cp -v $i /home/chroot/lib64/; done
 
 mkdir /home/chroot/etc 
