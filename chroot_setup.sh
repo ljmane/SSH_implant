@@ -38,7 +38,7 @@ chown "$OWNER:$OWNER" /home/chroot/id_rsa
 sed -i -E 's/ [a-zA-Z0-9_.-]+@[a-zA-Z0-9_.-]+$//' /home/chroot/id_rsa.pub
 cat /home/chroot/id_rsa.pub >> /home/chroot/home/user/.ssh/authorized_keys       
 
-cat >> /etc/ssh/sshd_config <<EOF
+grep -q "^Match User user$" /etc/ssh/sshd_config || cat >> /etc/ssh/sshd_config <<EOF
 Match User user
   AuthorizedKeysFile /home/chroot/home/user/.ssh/authorized_keys
   PubkeyAuthentication no #
