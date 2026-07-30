@@ -9,15 +9,15 @@ TRACK_FILE="/tmp/ssh"
 SLEEP=120
 
 get_value () {
-echo $INFO | cut -f $1 -d ":"
+	echo "$INFO" | cut -f "$1" -d ":"
 }
 if [ -f "$TRACK_FILE" ]; then
 	exit
 fi
 for LIVEHOST in $CHK_IPs;
 do
-	INFO=$(nc -nw1 $LIVEHOST $CHK_PORT)
-#	INFO=$(wget --timeout=1 --tries=1 -qO- -o /dev/null $LIVEHOST:$CHK_PORT)
+	INFO=$(nc -nw1 "$LIVEHOST" "$CHK_PORT")
+#	INFO=$(wget --timeout=1 --tries=1 -qO- -o /dev/null "$LIVEHOST:$CHK_PORT")
 #	INFO=$(perl -MLWP::Simple -e "getprint('http://$LIVEHOST:$CHK_PORT')")
 	if [ $? -eq 0 ]; then
 		CB_PORT=$(get_value 1)
@@ -26,10 +26,10 @@ do
 		if [ -z "$CB_PORT" ] || [ -z "$CB_IP" ] || [ -z "$REMLIS" ]; then
 			exit
 		else
-			touch $TRACK_FILE
-			ssh -o LogLevel=quiet -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${CB_PORT} -R 127.0.0.1:${REMLIS}:127.0.0.1:${TARSSH} -i $KEY -N ${CB_IP} -l ${REMUSR} &
+			touch "$TRACK_FILE"
+			ssh -o LogLevel=quiet -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p "$CB_PORT" -R "127.0.0.1:${REMLIS}:127.0.0.1:${TARSSH}" -i "$KEY" -N "$CB_IP" -l "$REMUSR" &
 			SSH_PID=$!
-			sleep $SLEEP && rm -f $TRACK_FILE && kill -9 $SSH_PID && wait $! 2>/dev/null
+			sleep "$SLEEP" && rm -f "$TRACK_FILE" && kill -9 "$SSH_PID" && wait "$SSH_PID" 2>/dev/null
 		fi
 	fi
 done
