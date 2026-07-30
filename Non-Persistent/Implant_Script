@@ -50,7 +50,7 @@ done
 
 encoded:
 b64=$(cat <<EOF
-:r ! base64 /path/to/pub/key/on/opstation
+:r ! base64 /path/to/pub/key/on/attack_host
 EOF
 )
 jumpto resume

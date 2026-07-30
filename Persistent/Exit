@@ -1,7 +1,7 @@
 //Must exit with the following
 rm -f <TRACK_FILE> && kill -9 <PID_OF_SSH_CONNECTION>
 
-#On Opstation
+#On Attack Host
 sed -i "s/PubkeyAuthentication yes #/PubkeyAuthentication no #/" /etc/ssh/sshd_config
 systemctl restart ssh
 

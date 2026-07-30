@@ -10,7 +10,7 @@ wget --timeout=5 --tries=1 -qO /dev/null <CHK_IP>:<CHK_PORT>
 which ssh
 #netstat or ss?
 	//adjust "Implant script" as needed
-//On Opstation
+//On Attack Host
 #Create ssh key
 ssh-keygen
 	//Remove <user>@<hostname> from pubkey and add key to chroot users .ssh/authorized_keys
