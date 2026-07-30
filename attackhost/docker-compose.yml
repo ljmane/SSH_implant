@@ -1,0 +1,17 @@
+services:
+  attackhost:
+    build:
+      context: ..
+      dockerfile: attackhost/Dockerfile
+    hostname: attackhost
+    container_name: attackhost
+    networks:
+      attackhost_net:
+        ipv4_address: 172.31.0.10
+
+networks:
+  attackhost_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/24

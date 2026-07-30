@@ -6,3 +6,6 @@ Post Exploitation action after accessing an internal target in a network. Enable
 For use in authorized penetration testing engagements, security research, and training labs (e.g. OSCP-style practice) only, against systems you own or are explicitly authorized to test. Not for use against systems without prior written authorization.
 
 The techniques implemented here (SSH reverse tunneling, chroot-jailed restricted shells, running a script and recovering it from `/proc/<pid>/fd` after deletion) are standard, publicly documented pentesting and OPSEC methodology, not novel evasion tooling.
+
+<h3>Defense in depth</h3>
+`chroot_setup.sh` locks the tunnel account down at the sshd level (forwarding restricted to just the implant's own reverse forward, no shell, no PTY — see the `AllowTcpForwarding`/`PermitListen`/`ForceCommand` lines). See [`attackhost/README.md`](attackhost/README.md) for an additional, independent layer: running that same setup inside a container so the attack host's own network stays out of reach even from an unforeseen escape vector.
