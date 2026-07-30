@@ -51,6 +51,8 @@ Match User user
   # per deployment) is permitted.
   AllowTcpForwarding remote
   PermitListen 127.0.0.1:*
+  PermitTTY no
+  ForceCommand echo 'This account is for tunneling only.'
 EOF
 
 systemctl reload ssh 2>/dev/null || systemctl reload sshd 2>/dev/null || service ssh reload 2>/dev/null || service sshd reload 2>/dev/null || kill -HUP "$(pgrep -o -x sshd)"
