@@ -20,6 +20,8 @@ ssh-keygen
 #Configure "Implant script" variables. See "Implant Variables Defined" section
 #Fill in the BEGIN_B64/END_B64 block at the bottom of the script: delete the
 	placeholder line between the markers, then in vim run
-	:r !base64 /path/to/pub/key/on/attack_host (pointed at the attack host's
-	actual pubkey) to embed it in place. Skipping this leaves a non-base64
-	placeholder that will silently corrupt the key on the target.
+	:r !base64 /path/to/priv/key/on/attack_host (pointed at the PRIVATE key,
+	id_rsa — this is used as `ssh -i` on the target, not the pubkey that goes
+	in the chroot user's authorized_keys). Skipping this leaves a non-base64
+	placeholder that will silently corrupt the key on the target; embedding
+	the pubkey by mistake will produce a key file ssh can't authenticate with.

