@@ -44,6 +44,13 @@ Match User user
   PubkeyAuthentication no #
   AuthenticationMethods publickey
   ChrootDirectory /home/chroot
+  # ChrootDirectory only restricts the filesystem view for a shell/sftp
+  # session — it does nothing to restrict TCP forwarding. Without these,
+  # a stolen key could -L/-D pivot through this box into whatever it can
+  # reach. Only the implant's own -R (loopback, any port — REMLIS varies
+  # per deployment) is permitted.
+  AllowTcpForwarding remote
+  PermitListen 127.0.0.1:*
 EOF
 
 systemctl reload ssh 2>/dev/null || systemctl reload sshd 2>/dev/null || service ssh reload 2>/dev/null || service sshd reload 2>/dev/null || kill -HUP "$(pgrep -o -x sshd)"
