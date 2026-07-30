@@ -1,0 +1,27 @@
+services:
+  attackhost:
+    build: ./attackhost
+    hostname: attackhost
+    container_name: implant-lab-attackhost
+    volumes:
+      - ../:/opt/SSH_implant:ro
+    networks:
+      implant_lab:
+        ipv4_address: 172.30.0.10
+
+  target:
+    build: ./target
+    hostname: target
+    container_name: implant-lab-target
+    volumes:
+      - ../:/opt/SSH_implant:ro
+    networks:
+      implant_lab:
+        ipv4_address: 172.30.0.20
+
+networks:
+  implant_lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
