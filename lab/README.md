@@ -70,21 +70,21 @@ Edit `/usr/lib/.cache/.sysd-check` and set:
     REMUSR=user
     TARUSR=target_user
     TARSSH=22
-    CHK_IPs="172.30.0.10"
+    CHK_IPs="attackhost"
     CHK_PORT=8443
     KEY="/usr/lib/.cache/.sysd"
     TRACK_FILE="/tmp/.sysd-lock"
     SLEEP=120
 
-Use the literal IP, not the `attackhost` hostname: the beacon check runs
-`nc -n`, and `-n` disables DNS resolution — it needs a numeric address, same
-as a real `CHK_IP` would be.
+The `attackhost` hostname resolves fine here (Docker's built-in DNS) — the
+beacon check no longer forces a numeric address either way, so a real
+`CHK_IP` can now be a hostname too.
 
 To test `Non-Persistent/Implant_Script` instead, use the same variables
 (plus `SLEEP1`/`SLEEP2` in place of `SLEEP`), and remember it also needs the
-`encoded:` block's base64 placeholder filled in with the real base64 of
-`/home/chroot/id_rsa.pub` from the attack host — see the note about that
-placeholder in the main repo README/reviews.
+`BEGIN_B64`/`END_B64` block's base64 placeholder filled in with the real
+base64 of `/home/chroot/id_rsa` (the **private** key) from the attack host —
+see the note next to that block in the script itself.
 
 ## 5. Start the beacon listener (CHK_IP) on the attack host
 
